@@ -74,10 +74,26 @@
     
 #### 2. Hypothesis ####
   
-# lmer(temp.mean.d ~ WNS.status + Latitude + Elevation, random = Year) then repeat with different 
-# response variables (i.e. temp range, min, max, var), and repeat with dwvp variables, and repeat with
-# percent winter variables.
+# For help, run:
+# ?glm   
+
+# MONTHLY DATA:   
+  # Build models:
+    mod1 <- glm(WNS.status ~ Temperature + Latitude + Elevation, family =  binomial, data = monthly)
+    mod2 <- glm(WNS.status ~ dwvp + Latitude + Elevation, family =  binomial, data = monthly) 
   
-  
+  # Model selection:
+    out.put <- model.sel(mod1, mod2)
+    out.put
+    # They are... the same? Let's try a global model...
+    
+  # Global model: 
+    all.params.h <- glm(WNS.status ~ Relative.Humidity + Latitude + Elevation + Winter.days + wint.in.range + wint.in.opt.range, family = binomial, data = monthly, na.action = na.roughfix)
+    results.h <- dredge(all.params.h)
+    results.h
+    
+    all.params.t <- glm(WNS.status ~ Temperature + Latitude + Elevation + Winter.days + wint.in.range + wint.in.opt.range, family = binomial, data = monthly, na.action = na.exclude)
+    results.t <- dredge(all.params.t)
+    results.t
 
 
