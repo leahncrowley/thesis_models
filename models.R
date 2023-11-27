@@ -19,7 +19,6 @@
   monthly <- read.csv("C:/Users/lcrowley1/Dropbox/Haase Bat Lab/Leah's Folder/Dataframes/monthly_data.csv")  
   sites   <- read.csv("C:/Users/lcrowley1/Dropbox/Haase Bat Lab/Leah's Folder/Dataframes/SITE_DATA.csv")
   
-  
 #### 1. Compare MCs between sites ####
 
 # DAILY DATA:
@@ -56,25 +55,37 @@
   
 #### 2. Hypothesis ####
   
-# For help, run:
-
-# MONTHLY DATA:   
   # Build models:
-    mod1 <- glm(WNS.status ~ Temperature + Latitude + Elevation, family =  binomial(link = "logit"), data = monthly)
-    mod2 <- glm(WNS.status ~ dwvp + Latitude + Elevation, family =  binomial, data = monthly) 
+    tempmod.1 <- glm(WNS.status ~ mean.daily.temp.mean + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(tempmod.1)
+    tempmod.2 <- glm(WNS.status ~ mean.daily.temp.var + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(tempmod.2)
+    tempmod.3 <- glm(WNS.status ~ mean.wint.temp + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(tempmod.3)
+    tempmod.4 <- glm(WNS.status ~ var.wint.temp + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(tempmod.4)
+  
+    dwvpmod.1 <- glm(WNS.status ~ mean.daily.dwvp.mean + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(dwvpmod.1)
+    dwvpmod.2 <- glm(WNS.status ~ mean.daily.dwvp.var + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(dwvpmod.2)
+    dwvpmod.3 <- glm(WNS.status ~ mean.wint.dwvp + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(dwvpmod.3)
+    dwvpmod.4 <- glm(WNS.status ~ var.wint.dwvp + Latitude + Elevation, family =  binomial(link = "logit"), data = sites)
+      summary(dwvpmod.4)
   
   # Model selection:
-    out.put <- model.sel(mod1, mod2)
-    out.put
+    temp.sel <- model.sel(tempmod.1, tempmod.2, tempmod.3, tempmod.4)
+    dwvp.sel <- model.sel(dwvpmod.1, dwvpmod.2, dwvpmod.3, dwvpmod.4)
+    
     # They are... the same? Let's try a global model...
-    
-  # Global model: 
-    all.params.h <- glm(WNS.status ~ Relative.Humidity + Latitude + Elevation + Winter.days + wint.in.range + wint.in.opt.range, family = binomial, data = monthly, na.action = na.roughfix)
-    results.h <- dredge(all.params.h)
-    results.h
-    
-    all.params.t <- glm(WNS.status ~ Temperature + Latitude + Elevation + Winter.days + wint.in.range + wint.in.opt.range, family = binomial, data = monthly, na.action = na.exclude)
-    results.t <- dredge(all.params.t)
-    results.t
+    # Global model: 
+      global.temp <- glm(WNS.status ~ mean.daily.temp.mean + mean.daily.temp.var + mean.wint.temp + var.wint.temp + Latitude + Elevation + Winter.days + wint.in.range + wint.in.opt.range, family = binomial, data = sites, na.action = na.roughfix)
+      global.temp.dredge <- dredge(global.temp) 
+      results.h
+      
+      all.params.t <- glm(WNS.status ~ Temperature + Latitude + Elevation + Winter.days + wint.in.range + wint.in.opt.range, family = binomial, data = monthly, na.action = na.exclude)
+      results.t <- dredge(all.params.t)
+      results.t
 
 
