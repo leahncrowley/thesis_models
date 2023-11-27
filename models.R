@@ -21,65 +21,46 @@
   
   
 #### 1. Compare MCs between sites ####
-  
-# For help, run:
-# ?lmer
 
 # DAILY DATA:
-  
-  # Fixed effects:  WNS, Latitude, Elevation
-  # Random effects: Month, Year
-  # Response:       Temperature variables OR  dwvp variables OR %winter variables 
-  # Terms:          WNS, Latitude, Elevation, Month, Year
-  # Data:           daily 
-  
-    lmer(temp.mean.d  ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily) 
-    lmer(temp.min.d   ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily) 
-    lmer(temp.max.d   ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
-    lmer(temp.range.d ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
-    lmer(temp.var.d   ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
+  summary(lme(temp.mean.d  ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(temp.min.d   ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(temp.max.d   ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(temp.range.d ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(temp.var.d   ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
     
-    lmer(dwvp.mean.d  ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily) 
-    lmer(dwvp.min.d   ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
-    lmer(dwvp.max.d   ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily) 
-    lmer(dwvp.range.d ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
-    lmer(dwvp.var.d   ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
-    
-    lmer(wint.in.range ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
-    lmer(wint.in.opt.range ~ WNS.status + Latitude + Elevation + (Month | Year), data = daily)
+  summary(lme(dwvp.mean.d  ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(dwvp.min.d   ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(dwvp.max.d   ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(dwvp.range.d ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(dwvp.var.d   ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+
+  summary(lme(wint.in.range ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
+  summary(lme(wint.in.opt.range ~ scale(Latitude) + scale(Elevation) + Site.Type, random = ~ 1|Month/Site, data = daily))
     
 # MONTHLY DATA:
-    
-    # Fixed effects:  WNS, Latitude, Elevation
-    # Random effects: Year
-    # Response:       Temperature variables OR  dwvp variables OR %winter variables 
-    # Terms:          WNS, Latitude, Elevation, Month, Year
-    # Data:           monthly 
-    
-    lmer(temp.mean.m  ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly) 
-    lmer(temp.min.m   ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly) 
-    lmer(temp.max.m   ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    lmer(temp.range.m ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    lmer(temp.var.m   ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    
-    lmer(dwvp.mean.m  ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly) 
-    lmer(dwvp.min.m   ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    lmer(dwvp.max.m   ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly) 
-    lmer(dwvp.range.m ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    lmer(dwvp.var.m   ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    
-    lmer(wint.in.range ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    lmer(wint.in.opt.range ~ WNS.status + Latitude + Elevation + (1 | Year), data = monthly)
-    
-    
+  summary(lme(temp.mean.m  ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(temp.min.m   ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(temp.max.m   ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(temp.range.m ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(temp.var.m   ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  
+  summary(lme(dwvp.mean.m  ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(dwvp.min.m   ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(dwvp.max.m   ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(dwvp.range.m ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(dwvp.var.m   ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  
+  summary(lme(wint.in.range ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  summary(lme(wint.in.opt.range ~ Site.Type + scale(Latitude) + scale(Elevation), random = ~1 | Site, data = monthly))
+  
 #### 2. Hypothesis ####
   
 # For help, run:
-# ?glm   
 
 # MONTHLY DATA:   
   # Build models:
-    mod1 <- glm(WNS.status ~ Temperature + Latitude + Elevation, family =  binomial, data = monthly)
+    mod1 <- glm(WNS.status ~ Temperature + Latitude + Elevation, family =  binomial(link = "logit"), data = monthly)
     mod2 <- glm(WNS.status ~ dwvp + Latitude + Elevation, family =  binomial, data = monthly) 
   
   # Model selection:
